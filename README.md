@@ -23,7 +23,7 @@ This repository provides a Python wrapper script for ClamAV that captures the sc
 
 2. **Install the Generative AI SDK:**
    ```sh
-   pip install generative-ai-sdk
+   pip install google-generativeai
    ```
    
 3. **Clone the Repository:**
