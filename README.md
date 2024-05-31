@@ -28,7 +28,7 @@ This repository provides a Python wrapper script for ClamAV that captures the sc
    
 3. **Clone the Repository:**
    ```sh
-   git clone https://github.com/yourusername/clamav-gemini-wrapper.git
+   git clone https://github.com/quangbao368/clamav-gemini-wrapper
    cd clamav-gemini-wrapper
    ```
    
