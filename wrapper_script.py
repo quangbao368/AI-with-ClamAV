@@ -1,17 +1,39 @@
+import os
 import subprocess
-import google.generativeai as gemini_ai
+import google.generativeai as genai
 
-# Define your API key here
-GEMINI_API_KEY = "your_gemini_api_key_here"
+# Configure the Gemini API key from environment variables
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+
+# Adding Generative AI model configuration
+generation_config = {
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
+}
+safety_settings = [
+    {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+    {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+    {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+    {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+]
+
+model = genai.GenerativeModel(
+    model_name="gemini-1.5-flash",
+    safety_settings=safety_settings,
+    generation_config=generation_config,
+)
 
 def run_clamscan():
     result = subprocess.run(['clamscan', '-r', '/path/to/scan'], capture_output=True, text=True)
     return result.stdout
 
 def send_report_to_generative_ai(report):
-    gemini_ai.Client.configure(api_key=GEMINI_API_KEY)
-    response = gemini_ai.TextGenerator.generate(prompt=report, max_tokens=100)
-    return response
+    chat_session = model.start_chat(history=[])
+    response = chat_session.send_message(report)
+    return response.text
 
 def main():
     report = run_clamscan()
