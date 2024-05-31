@@ -1,9 +1,14 @@
+#!/usr/bin/env python3
 import os
 import subprocess
 import google.generativeai as genai
 
-# Configure the Gemini API key from environment variables
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+# Directly set your API key
+api_key = "PLACE_YOUR_API_IN_HERE"
+
+# Configure the Gemini API key
+genai.configure(api_key=api_key)
+
 
 # Adding Generative AI model configuration
 generation_config = {
